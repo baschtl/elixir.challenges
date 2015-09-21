@@ -18,15 +18,15 @@ defmodule Anagram do
   defp do_match(base, candidates) do
     Enum.flat_map(candidates, fn(candidate) ->
       cond do
-        have_same_length?(base, candidate) && have_same_chars?(base, candidate) -> [candidate]
+        equal_length?(base, candidate) && equal_chars?(base, candidate) -> [candidate]
         true -> []
       end
     end)
   end
 
-  defp have_same_length?(a, b), do: String.length(a) == String.length(b)
+  defp equal_length?(a, b), do: String.length(a) == String.length(b)
 
-  defp have_same_chars?(a, b) do
+  defp equal_chars?(a, b) do
     chars_of_a = Enum.sort(String.codepoints(String.downcase(a)))
     chars_of_b = Enum.sort(String.codepoints(String.downcase(b)))
 
