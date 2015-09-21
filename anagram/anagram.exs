@@ -4,12 +4,12 @@ defmodule Anagram do
   """
   @spec match(String.t, [String.t]) :: [String.t]
   def match(base, candidates) do
-    filtered_candidates = filtered_candidates(base, candidates)
+    filtered_candidates = filter_candidates(base, candidates)
 
     do_match(base, filtered_candidates)
   end
 
-  defp filtered_candidates(base, candidates) do
+  defp filter_candidates(base, candidates) do
     Enum.reject(candidates, fn(candidate) ->
       String.downcase(candidate) == String.downcase(base)
     end)
