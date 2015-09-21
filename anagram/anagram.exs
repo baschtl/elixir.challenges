@@ -4,33 +4,16 @@ defmodule Anagram do
   """
   @spec match(String.t, [String.t]) :: [String.t]
   def match(base, candidates) do
-    filtered_candidates = filter_candidates(base, candidates)
-
-    do_match(base, filtered_candidates)
+    Enum.filter(candidates, &anagram?(&1, base))
   end
 
-  defp filter_candidates(base, candidates) do
-    Enum.reject(candidates, fn(candidate) ->
-      String.downcase(candidate) == String.downcase(base)
-    end)
+  defp anagram?(candidate, base) do
+    do_anagram(String.downcase(candidate), String.downcase(base))
   end
 
-  defp do_match(base, candidates) do
-    Enum.flat_map(candidates, fn(candidate) ->
-      cond do
-        equal_length?(base, candidate) && equal_chars?(base, candidate) -> [candidate]
-        true -> []
-      end
-    end)
-  end
+  defp do_anagram(a, a), do: false
+  defp do_anagram(a, b), do: hash_for(a) === hash_for(b)
 
-  defp equal_length?(a, b), do: String.length(a) == String.length(b)
-
-  defp equal_chars?(a, b) do
-    chars_of_a = Enum.sort(String.codepoints(String.downcase(a)))
-    chars_of_b = Enum.sort(String.codepoints(String.downcase(b)))
-
-    chars_of_a == chars_of_b
-  end
+  defp hash_for(word), do: word |> String.codepoints |> Enum.sort
 
 end
