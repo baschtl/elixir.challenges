@@ -17,7 +17,7 @@ defmodule BracketPush do
   end
 
   defp string_with_only_brackets(str) do
-    String.replace(str, ~r{[^\(\[\{\}\)\]]}, "")
+    String.replace(str, ~r/[^\p{Ps}\p{Pe}]/, "")
   end
 
   defp do_check_brackets([], []), do: true
